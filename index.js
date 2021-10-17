@@ -1,4 +1,5 @@
 // Dependencies
+const tls = require("tls");
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
@@ -8,8 +9,9 @@ const { createClient } = require("redis");
 // Environment variables
 require("dotenv").config();
 
+const dev = process.env.NODE_ENV === "development";
 const port = process.env.PORT || 4000;
-const redis_url = process.env.NODE_ENV === "development" ? process.env.REDIS_URL : process.env.REDIS_TLS_URL;
+const redis_url = dev ? process.env.REDIS_URL : process.env.REDIS_TLS_URL;
 
 // Routes and sockets
 const routerApi = require("./src/routes");
@@ -29,7 +31,9 @@ const io = new Server(httpServer, {
   }
 });
 // Redis
-const pubClient = createClient(redis_url);
+const pubClient = createClient(redis_url, dev ? {} : {
+  tls: tls.connect()
+});
 const subClient = pubClient.duplicate();
 
 // Socket.io adapters
