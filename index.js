@@ -32,7 +32,9 @@ const io = new Server(httpServer, {
 });
 // Redis
 const pubClient = createClient(redis_url, dev ? {} : {
-  tls: tls.connect()
+  tls: tls.connect(port, {
+    enableTrace: true
+  })
 });
 const subClient = pubClient.duplicate();
 
