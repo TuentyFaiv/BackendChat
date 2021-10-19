@@ -14,7 +14,7 @@ function socketApi(io, redis) {
       redis.get("chat_messages", (err, reply) => {
         if (reply) {
           chatMessages = JSON.parse(reply);
-          socket.to(socket.id).emit("get messages", JSON.parse(reply));
+          socket.emit("get messages", JSON.parse(reply));
         }
       });
     }
