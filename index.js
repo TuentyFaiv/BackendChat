@@ -49,7 +49,7 @@ const io = new Server(httpServer, {
 });
 // Redis
 const redisLocal = { host: "localhost", port: 6379 };
-const redisConfig = dev ? {} : {
+const redisConfig = (dev && !redisTls) ? {} : {
   tls: tls.connect(port, {
     enableTrace: true
   })
