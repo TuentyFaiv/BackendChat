@@ -49,12 +49,12 @@ const io = new Server(httpServer, {
 });
 // Redis
 const redisLocal = { host: "localhost", port: 6379 };
-const redisConfig = (dev && !redisTls) ? {} : {
-  tls: tls.connect(port, {
-    enableTrace: true
-  })
-};
-const pubClient = dev ? createClient(redisLocal) : createClient(redisUrl, redisConfig);
+// const redisConfig = (dev && !redisTls) ? {} : {
+//   tls: tls.connect(port, {
+//     enableTrace: true
+//   })
+// };
+const pubClient = dev ? createClient(redisLocal) : createClient(redisUrl);
 const subClient = pubClient.duplicate();
 
 // Socket.io adapters
